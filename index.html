@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>NoBetRepeat - BDR Beat</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #121212; color: #fff; text-align: center; padding: 40px; }
+        .box { background: #1e1e1e; padding: 20px; border-radius: 12px; display: inline-block; max-width: 500px; }
+        .numbers { font-size: 24px; font-weight: bold; color: #00ff88; margin: 20px 0; letter-spacing: 4px; }
+        button { background: #00ff88; color: #000; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        button:hover { background: #00cc6a; }
+        .stats { margin-top: 15px; font-size: 14px; color: #aaa; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1>BDR Beat — NoBetRepeat</h1>
+    <p>Algorytm koordynacji kombinacji. Generuj unikalne zestawy bez powtórzeń.</p>
+    
+    <div id="numbers" class="numbers">-- -- -- -- -- --</div>
+    <button onclick="generateCombination()">Pobierz unikalną kombinację</button>
+    
+    <div class="stats">
+        Wygenerowanych w tej sesji: <span id="count">0</span> / 13 983 816
+    </div>
+</div>
+
+<script>
+    let generated = new Set();
+
+    function generateCombination() {
+        if (generated.size >= 13983816) {
+            alert("Osiągnięto limit wszystkich kombinacji!");
+            return;
+        }
+
+        let combo;
+        do {
+            let nums = [];
+            while(nums.length < 6){
+                let r = Math.floor(Math.random() * 49) + 1;
+                if(nums.indexOf(r) === -1) nums.push(r);
+            }
+            nums.sort((a, b) => a - b);
+            combo = nums.join(" - ");
+        } while (generated.has(combo));
+
+        generated.add(combo);
+
+        document.getElementById("numbers").innerText = combo;
+        document.getElementById("count").innerText = generated.size;
+    }
+</script>
+
+</body>
+</html>
